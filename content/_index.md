@@ -12,8 +12,11 @@ Why is it slow? Kernels.
 With Kernelless software, your software runs:
 
 Without an operating system
+
 Without dependencies
+
 Without a kernel
+
 In the cloud.
 
 Give us your binary. We'll run it. In the cloud.
