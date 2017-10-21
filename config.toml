@@ -1,4 +1,4 @@
-baseURL = "http://example.org/"
+baseURL = "http://kernelless.cloud/"
 languageCode = "en-us"
-title = "My New Hugo Site"
+title = "Kernelless. Cloud."
 publishDir = "docs"
