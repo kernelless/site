@@ -20,3 +20,7 @@ Without a kernel
 In the cloud.
 
 Give us your binary. We'll run it. In the cloud.
+
+# See what people are saying about the future of software
+
+{{< tweet 921745298183081989 >}}
