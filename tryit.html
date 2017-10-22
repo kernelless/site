@@ -39,24 +39,49 @@
   </head>
 <!-- NAVBAR
 ================================================== -->
-  <body>
+<body>
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="runModal" tabindex="-1" role="dialog" aria-labelledby="runModalLabel">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
+            <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">kerneless.cloud</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">kerneless.cloud</h4>
             </div>
             <div class="modal-body">
-              Congratulations! It's running!
+                Congratulations! It's running!
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Holy Fuck!</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Holy Fuck!</button>
             </div>
-          </div>
+            </div>
         </div>
-      </div>
+    </div>
+
+    <!-- Debug Modal -->
+    <div class="modal fade" id="debugModal" tabindex="-1" role="dialog" aria-labelledby="debugModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">kerneless.cloud</h4>
+                </div>
+                <div class="modal-body">
+                    Hold on to your butts.
+                    <p></p>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar"
+                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+                        </div>
+                    </div>
+
+                    <div class="alert alert-success" role="alert">Debugging completed!</div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="navbar-wrapper">
       <div class="container">
@@ -101,8 +126,11 @@
     <div class="container kernelless-editor">
         <!-- Button trigger modal -->
         <p>
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                Run it!
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#runModal">
+                Run
+            </button>
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#debugModal" onClick="javascript:debugIt()">
+                Debug
             </button>
         </p>
 
@@ -111,19 +139,7 @@
                 <h3 class="panel-title">Kernelless Code</h3>
             </div>
             <div class="panel-body">
-                <div id="editor">// With Kernelless Cloud, just give us your arbitrary code, and we'll run it
-// in the cloud on bare metal without a kernel!
-
-// Don't worry about dependencies. Need 'em? Just add 'em right here with
-// our handy dependency injection API. 
-inject_dep('https://your.site/assets/js/my.js');
-                        
-function foo(items) {
-    var x = "Wow! This is the future of software?!";
-    return x;
-}
-                            
-                </div>
+                <div id="editor"></div>
             </div>
         </div>
 
@@ -149,9 +165,48 @@ function foo(items) {
 
     <script src="assets/js/ace-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
     <script>
+        var defaultCode = `// With Kernelless Cloud, just give us your arbitrary code, and we'll run it
+// in the cloud on bare metal without a kernel!
+
+// Don't worry about dependencies. Need 'em? Just add 'em right here with
+// our handy dependency injection API. 
+inject_dep('https://your.site/assets/js/my.js');
+                        
+function foo(items) {
+    var x = "Wow! This is the future of software?!";
+    return x;
+}
+`;
+
+        function debugIt() {
+            var progress = $('.progress');
+            var progressBar = $('.progress-bar');
+            var alert = $('.alert');
+
+			progressBar.css('width', '0');
+			progress.css('display', 'block');
+			alert.css('display', 'none');
+			
+            progressBar.animate({width: "100%"}, 1000);
+            setTimeout(function() {
+				progress.css('display', 'none');
+				resetEditor('');
+				alert.css('display', 'block');
+				setTimeout(function() {
+                	$('#debugModal').modal('hide');
+				}, 1000);
+            }, 2000);
+        }
+
+        function resetEditor(text = defaultCode) {
+            editor.setValue(text);
+            editor.clearSelection();
+        }
+
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setMode("ace/mode/javascript");
+        resetEditor();
     </script>
   </body>
 </html>
