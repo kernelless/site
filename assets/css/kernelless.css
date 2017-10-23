@@ -8,3 +8,15 @@
 .alert {
     display: none;
 }
+
+.more-info {
+    position: relative;
+    top: 120px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.picture {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
